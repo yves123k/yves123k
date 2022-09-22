@@ -1,0 +1,80 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE HTML>
+<html>
+{% block content %}
+	<div class="container-wrap">
+		<aside id="fh5co-hero">
+			<div class="flexslider">
+				<ul class="slides">
+			   	<li style="background-image: url({% static 'images/img_bg_3.jpg' %});">
+			   		<div class="overlay-gradient"></div>
+		   			<div class="row">
+			   			<div class="col-md-6 col-md-offset-3 slider-text slider-text-bg">
+			   				<div class="slider-text-inner text-center">
+			   					<h1>Publish Ad</h1>
+									<h2>Free html5 templates Made by <a href="http://freehtml5.co/" target="_blank">freehtml5.co</a></h2>
+			   				</div>
+			   			</div>
+			   		</div>
+			   	</li>		   	
+			  	</ul>
+		  	</div>
+		</aside>
+    
+		<div id="fh5co-work">
+			<div class="row" >
+                <form class="row g-3" method="POST">
+                    {{form_ad.media}}
+                    
+                    <div class="col-12">  
+                    <label for="inputPassword4" class="form-label">Titre</label>
+                        {% render_field form_ad.titre class="form-control" %}
+                    </div>
+                    <div>
+                        <label for="inputPassword4" style="margin-top: 15px" class="form-label">Description</label>
+                        
+                    </div>
+                    <div class="col-12" style="margin-top: 20px">
+                        <label for="inputPassword4" class="form-label"></label>
+                        {% render_field form_ad.description %}
+                    </div>
+                    
+
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">main image<span style="font-size:10px;margin-left: 50px;">nb: profile image of your blog</span></label>
+                        {% render_field form_ad.main_image class="form-control"%} 
+                    </div>
+                    
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">image 1</label>
+                        {% render_field form_ad.image1 class="form-control"%} 
+                    </div>
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">image 2</label>
+                        {% render_field form_ad.image2 class="form-control"%} 
+                    </div>
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">image 3</label>
+                        {% render_field form_ad.image3 class="form-control"%} 
+                    </div>
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">image 4</label>
+                        {% render_field form_ad.image4 class="form-control"%} 
+                    </div>
+                    <div class="col-12" style="margin-top: 25px">
+                        <label for="inputPassword4" class="form-label">image 5</label>
+                        {% render_field form_ad.image5 class="form-control"%} 
+                    </div>
+                    
+                    </form>
+			</div>
+		</div>
+            
+	</div><!-- END container-wrap -->	
+
+    
+{% endblock content %}
+
+</html>

@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Crosspay_error</title>
+  <link rel="stylesheet" href="{% static 'css/style_error_v.css' %}">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.13.0/css/all.css">
+</head>
+
+<body style="background-color:black">
+  <form method = "POST">
+    <div align="center">
+        <img src="{% static 'images/avertissement.jpg'%}" >
+    </div>
+    <h1>VALIDATION_ERROR</h1>
+    <div class="inputs"> 
+    </div>
+    <div align="center">
+      <button type="submit">Resend Email</button>
+    </div>
+  </form>
+</body>
+</html>

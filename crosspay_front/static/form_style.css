@@ -1,0 +1,42 @@
+.form_custom{
+    color: #7cbd1e;
+    font-size: 1.5em;
+    width: 250px;
+    
+}
+.form_custom_2{
+    color: #7cbd1e;
+    
+    
+}
+.form_custom_little{
+    font-size: 16px;
+    width: 60px;
+    
+}
+.form_custom_m{
+    font-size: 16px;
+    width: 90px;
+    
+}
+.form_custom_bool{
+    width: 10px;
+    height:10px;
+    
+}
+
+.custom_main_area{
+    height: 60px;
+    font-size: 1.2rem; 
+    color: #000;
+    width:301px ; 
+}
+.main_img_input{
+    width:300px ;
+}
+.det_address{
+    max-width:80px !important ; 
+    max-height:50px !important; 
+    width: 2px !important;
+    height:5px !important;
+}
