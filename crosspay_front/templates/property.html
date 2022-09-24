@@ -91,9 +91,9 @@
               </div>
               <div class="ml-auto d-flex align-items-center">
                 <div>
-                  <a href="#" class="view-list px-3 border-right active">All</a>
-                  <a href="#" class="view-list px-3 border-right">Rent</a>
-                  <a href="#" class="view-list px-3">Sale</a>
+                  <a href="" class="view-list px-3 border-right active">All</a>
+                  <a href="" class="view-list px-3 border-right">Rent</a>
+                  <a href="?search=sale" class="view-list px-3">Sale</a>
                 </div>
 
 
@@ -115,18 +115,22 @@
 
     <div class="site-section site-section-sm bg-light">
       <div class="container">
-      
         <div class="row mb-5">
           {% for ad in allhome %}
+          
           <div class="col-md-6 col-lg-4 mb-4">
             
             <div class="property-entry h-100">
-              <a href="property-details.html" class="property-thumbnail">
+              <a href="{% url 'details' ad.id %}" class="property-thumbnail">
                 <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
+                  {% if ad.on_sale  %}
+                      <span class="offer-type bg-danger">Sale</span>
+                  {% endif %}
+                  {% if ad.for_rent %}
+                      <span class="offer-type bg-success">Rent</span>
+                  {% endif %}
                 </div>
-                <img src='{{ad.image.url}}' alt="Image" class="img-fluid">
+                <img style="max-width:349.99px;max-height:233.38px;min-height:233.38px;min-width:349.99px"; src='{{ad.image.url}}' alt="Image " class="img-fluid">
               </a>
               <div class="p-4 property-body">
                 <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
@@ -135,7 +139,7 @@
                 <strong class="property-price text-primary mb-3 d-block text-success">{{ad.price}}</strong>
                 <ul class="property-specs-wrap mb-3 mb-lg-0">
                   <li>
-                    <span class="property-specs">Beds</span>
+                    <span class="property-specs"></span>
                     <span class="property-specs-number">2 <sup>+</sup></span>
                     
                   </li>
@@ -154,10 +158,10 @@
               </div>
             </div>
           </div>
-
+        {% endfor %} 
           
         </div>
-      {% endfor %}  
+       
         <div class="row">
           <div class="col-md-12 text-center">
             <div class="site-pagination">

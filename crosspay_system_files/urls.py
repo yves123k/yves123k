@@ -33,6 +33,7 @@ urlpatterns = [
     path('profil/', profile ,name='profil'),
     path('accounts/', include('crosspay_auth.urls')),
     path('ad/', include('crosspay_user.urls')),
+    path('properties/info/<int:pk>/', property_details , name='details')
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

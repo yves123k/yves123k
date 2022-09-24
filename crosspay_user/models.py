@@ -1,9 +1,9 @@
-
 from django.db import models
 from django.conf import settings
 from crosspay_auth.models import User 
 from ckeditor.fields import RichTextField
 from crosspay_auth.models import RepeatField
+
 
 class creat_Ad(RepeatField):
     user = models.ForeignKey(
@@ -26,9 +26,4 @@ class creat_Ad(RepeatField):
     on_sale = models.BooleanField(default=False)
     address = models.TextField(max_length=40)
     more_info = models.TextField(max_length=400)
-    
-   
-    
-
-    ####------------principal_view_models-----------------####
     
