@@ -62,16 +62,18 @@
                   <li><a href="rent.html">Rent</a></li> -->
                   <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'property' %}">properties</a></li>
                   <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'blog' %}">Blog</a></li>
-                  <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
                   <li  class="has-children">
-                    <a href="properties.html">Properties</a>
+                    <img  width="25px" height="25px" src="{% static 'images/menu.png' %}">
                     <ul class="dropdown arrow-top">
                       <li><a href="{% url 'profil' %}">profile</a></li>
-                      <li><a href="#">post an ad</a></li>
-                      <li><a href="#">logout</a></li>  
+                      <li><a href="{% url 'create' %}">post an ad</a></li>
+                      <li><a href="{% url 'logout' %}">logout</a></li>  
                     </ul>
                   </li>
+                  <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
+                  
                 {% else %}
+                  <li class="{% if request.path == '/home/' %} active {% endif %}"><a href="{% url 'home' %}">Home</a></li>
                     <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'blog' %}">Blog</a></li>
                     <li  class="{% if request.path == '/about/' %} active {% endif %}"><a href="{% url 'about' %}">About</a></li>
                     <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>

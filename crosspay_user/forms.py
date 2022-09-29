@@ -18,7 +18,8 @@ class ad_user(forms.ModelForm):
                 'year_built',
                 'address',
                 'more_info',
-                'image'
+                'image',
+                'user'
                 )
               
 

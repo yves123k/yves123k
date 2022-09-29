@@ -11,6 +11,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 {% load static %}
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en" itemscope itemtype="http://schema.org/WebPage">
 
@@ -78,15 +79,16 @@
               <li><a href="rent.html">Rent</a></li> -->
               <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'property' %}">properties</a></li>
               <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'blog' %}">Blog</a></li>
-              <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
               <li  class="has-children">
-                <a> <img  width="75px" height="75px" src="{% static 'images/user.png' %}"></a>
+                <a> <img  width="25px" height="25px" src="{% static 'images/menu.png' %}"></a>
                 <ul class="dropdown arrow-top">
-                  <li><a href="#">profile</a></li>
-                  <li><a href="#">post an ad</a></li>
-                  <li><a href="#">logout</a></li>  
+                  <li><a href="{% url 'profil' %}">profile</a></li>
+                  <li><a href="{% url 'create' %}">post an ad</a></li>
+                  <li><a href="{% url 'logout' %}">logout</a></li>  
                 </ul>
               </li>
+              <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
+            
             {% else %}
                 <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'blog' %}">Blog</a></li>
                 <li  class="{% if request.path == '/about/' %} active {% endif %}"><a href="{% url 'about' %}">About</a></li>
@@ -104,51 +106,168 @@
   <!-- End Navbar -->
   <!-- -------- START HEADER 4 w/ search book a ticket form ------- -->
   <header>
-    <div class="page-header min-height-400" style="background-image: url('{% static 'assets/img/city-profile.jpg' %}');" loading="lazy">
-      <span class="mask bg-gradient-dark opacity-8"></span>
-    </div>
+    <img class="page-header min-height-400" id="banner_preview" src="{{user.banner_user.url}}" style="width:1350px ;height:400px"; loading="lazy">
+      <span class="mask bg-gradient-dark opacity-8"></span> 
+  </img>
   </header>
+  
   <!-- -------- END HEADER 4 w/ search book a ticket form ------- -->
   <div class="card card-body blur shadow-blur mx-3 mx-md-4 mt-n6 mb-4">
+    <!-- <span style="text-align:center;">Change your cover</span>
+    <div style="text-align:center ;">{% render_field form_up.banner_user %}</div> -->
     <!-- START Testimonials w/ user image & text & info -->
-    <section class="py-sm-7 py-5 position-relative">
-      <div class="container">
+    <section style="background-color: #eee;">
+      <div class="container py-5">
         <div class="row">
-          <div class="col-12 mx-auto">
-            <div class="mt-n8 mt-md-n9 text-center">
-              <img class="avatar avatar-xxl shadow-xl position-relative z-index-2" src="{% static 'assets/img/bruce-mars.jpg' %}" alt="bruce" loading="lazy">
+          <div class="col-lg-4">
+            <div class="card mb-4">
+              <div class="card-body text-center">  
+                <img src='{{user.photo.url}}' style="height:200px;width:200px;" alt="avatar"> 
+                <h5 class="my-3">{{user.username}}</h5>
+                <p class="text-muted mb-1">{{user.job}}</p>
+                <p class="text-muted mb-4">{{user.address}}</p>
+                <div class="d-flex justify-content-center mb-2">
+                  <a href="{% url 'update_profile' %}"><button class="btn btn-primary">Edit</button></a>
+                </div>
+              </div>
             </div>
-            <div class="row py-5">
-              <div class="col-lg-7 col-md-7 z-index-2 position-relative px-md-2 px-sm-5 mx-auto">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <h3 class="mb-0">Michael Roven</h3>
-                  <div class="d-block">
-                    <button type="button" class="btn btn-sm btn-outline-info text-nowrap mb-0">Follow</button>
+            <div class="card mb-4 mb-lg-0">
+              <div class="card-body p-0">
+                <ul class="list-group list-group-flush rounded-3">
+                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <i class="fas fa-globe fa-lg text-warning"></i>
+                    <p class="mb-0">{{user.website}}</p>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
+                    <p class="mb-0">{{user.tweeter}}</p>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
+                    <p class="mb-0">{{user.instagram}}</p>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                    <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
+                    <p class="mb-0">{{user.facebook}}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Username</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.username}}</p>
                   </div>
                 </div>
-                <div class="row mb-4">
-                  <div class="col-auto">
-                    <span class="h6">323</span>
-                    <span>Posts</span>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">First Name</p>
                   </div>
-                  <div class="col-auto">
-                    <span class="h6">3.5k</span>
-                    <span>Followers</span>
-                  </div>
-                  <div class="col-auto">
-                    <span class="h6">260</span>
-                    <span>Following</span>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.first_name}}</p>
                   </div>
                 </div>
-                <p class="text-lg mb-0">
-                  Decisions: If you can’t decide, the answer is no.
-                  If two equally difficult paths, choose the one more
-                  painful in the short term (pain avoidance is creating
-                  an illusion of equality). Choose the path that leaves
-                  you more equanimous. <br><a href="javascript:;" class="text-info icon-move-right">More about me
-                    <i class="fas fa-arrow-right text-sm ms-1"></i>
-                  </a>
-                </p>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Last Name</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.last_name}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Email</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.email}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Phone</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.number_phone}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">language</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.language}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Nationnality</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.nationality}}</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <p class="mb-0">Country</p>
+                  </div>
+                  <div class="col-sm-9">
+                    <p class="text-muted mb-0">{{user.country}}</p>
+                  </div>
+                </div>
+                <hr>
+                
+                
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="card mb-4 mb-md-0">
+                  <div class="card-body">
+                    <p class="mb-4"><span class="text-primary font-italic me-1">more info</span> 
+                    </p>  
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">Description</p>
+                    <div>{{user.description}}</div>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="card mb-4 mb-md-0">
+                  <div class="card-body">
+                    <p class="mb-4"><span class="text-primary font-italic me-1">My Services</span> ....
+                    </p>
+                    
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">Sale House</p>
+                    <div>{{user.sale_house}}</div>
+
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">sell_House</p>
+                    <div>{{user.sell_house}}</div>
+
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">Building</p>
+                    <div>{{user.building}}</div>
+
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">sale land</p>
+                    <div>{{user.sale_land}}</div>
+                    
+                    <p class="mt-4 mb-1" style="font-size: .77rem;">sell land</p>
+                    <div>{{user.sell_land}}</div>
+                    
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -161,23 +280,30 @@
       <div class="container">
         <h3 class="mb-5">Check my latest blogposts</h3>
         <div class="row mb-5">
+          {% for ad in user_blog %}
+          
           <div class="col-md-6 col-lg-4 mb-4">
+            
             <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
+              <a href="{% url 'details' ad.id %}" class="property-thumbnail">
                 <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
+                  {% if ad.on_sale  %}
+                      <span class="offer-type bg-danger">Sale</span>
+                  {% endif %}
+                  {% if ad.for_rent %}
+                      <span class="offer-type bg-success">Rent</span>
+                  {% endif %}
                 </div>
-                <img src="/static/images/img_1.jpg" alt="Image" class="img-fluid">
+                <img style="max-width:349.99px;max-height:233.38px;min-height:233.38px;min-width:349.99px"; src='{{ad.image.url}}' alt="Image " class="img-fluid">
               </a>
               <div class="p-4 property-body">
                 <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">625 S. Berendo St</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 625 S. Berendo St Unit 607 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
+                <h2 class="property-title"><a href="property-details.html">{{ad.titre}}</a></h2>
+                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span>{{ad.address}}</span>
+                <strong class="property-price text-primary mb-3 d-block text-success">{{ad.price}}</strong>
                 <ul class="property-specs-wrap mb-3 mb-lg-0">
                   <li>
-                    <span class="property-specs">Beds</span>
+                    <span class="property-specs"></span>
                     <span class="property-specs-number">2 <sup>+</sup></span>
                     
                   </li>
@@ -196,291 +322,15 @@
               </div>
             </div>
           </div>
+        {% endfor %}
 
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
-                </div>
-                <img src="/static/images/img_2.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite active"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">871 Crenshaw Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 1 New York Ave, Warners Bay, NSW 2282</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">1,620</span>
-                    
-                  </li>
-                </ul>
+          
+        </div>
 
-              </div>
-            </div>
-          </div>
+          
 
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-info">Lease</span>
-                </div>
-                <img src="/static/images/img_3.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">853 S Lucerne Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 853 S Lucerne Blvd Unit 101 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">5,500</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
-                </div>
-                <img src="/static/images/img_4.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">625 S. Berendo St</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 625 S. Berendo St Unit 607 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">7,000</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
-                </div>
-                <img src="/static/images/img_5.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">871 Crenshaw Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 1 New York Ave, Warners Bay, NSW 2282</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">1,620</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-info">Lease</span>
-                </div>
-                <img src="/static/images/img_6.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">853 S Lucerne Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 853 S Lucerne Blvd Unit 101 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">5,500</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
-                </div>
-                <img src="/static/images/img_7.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">625 S. Berendo St</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 625 S. Berendo St Unit 607 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">7,000</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-danger">Sale</span>
-                  <span class="offer-type bg-success">Rent</span>
-                </div>
-                <img src="/static/images/img_8.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">871 Crenshaw Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 1 New York Ave, Warners Bay, NSW 2282</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">1,620</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-4 mb-4">
-            <div class="property-entry h-100">
-              <a href="/property_details/" class="property-thumbnail">
-                <div class="offer-type-wrap">
-                  <span class="offer-type bg-info">Lease</span>
-                </div>
-                <img src="/static/images/img_1.jpg" alt="Image" class="img-fluid">
-              </a>
-              <div class="p-4 property-body">
-                <a href="#" class="property-favorite"><span class="icon-heart-o"></span></a>
-                <h2 class="property-title"><a href="/property_details/">853 S Lucerne Blvd</a></h2>
-                <span class="property-location d-block mb-3"><span class="property-icon icon-room"></span> 853 S Lucerne Blvd Unit 101 Los Angeles, CA 90005</span>
-                <strong class="property-price text-primary mb-3 d-block text-success">$2,265,500</strong>
-                <ul class="property-specs-wrap mb-3 mb-lg-0">
-                  <li>
-                    <span class="property-specs">Beds</span>
-                    <span class="property-specs-number">2 <sup>+</sup></span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">Baths</span>
-                    <span class="property-specs-number">2</span>
-                    
-                  </li>
-                  <li>
-                    <span class="property-specs">SQ FT</span>
-                    <span class="property-specs-number">5,500</span>
-                    
-                  </li>
-                </ul>
-
-              </div>
-            </div>
-          </div>
+          
+           
         </div>
         <div class="row">
           <div class="col-md-12 text-center">
@@ -566,6 +416,9 @@
         
       </div>
     </div>
+    
+
+  </div>
   </footer>
   <!-- -------- END FOOTER 5 w/ DARK BACKGROUND ------- -->
   <!--   Core JS Files   -->
@@ -591,9 +444,21 @@
   <script src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
   <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
   <script src="{% static 'js/aos.js' %}"></script>
+  <script src="{% static 'js/my_customjs/preview.js' %}"></script>
+
 
   <script src="{% static 'js/main.js' %}"></script>
-
+<script>
+   var Element = document.getElementById('id_banner_user');
+    var img = document.getElementById("banner_preview");
+    Element.addEventListener('change', function() {
+      var url = URL.createObjectURL(Element.files[0]);
+      img.src = url;
+      console.log(url);
+    //   var d=document.querySelector(".p");
+    //   d.textContent+=url;
+});
+</script> -->
 
 
 

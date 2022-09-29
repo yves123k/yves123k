@@ -34,7 +34,7 @@ class User(AbstractUser):
         on_delete=models.SET_NULL,
         null=True,
     )
-    photo = models.ImageField(upload_to = "Images",blank=True)
+    photo = models.ImageField(upload_to ="Images")
     number_phone = PhoneNumberField(region="CI")
     address = models.CharField(max_length=150,blank=True)
     description = models.TextField(max_length=500,blank=True)
@@ -42,9 +42,10 @@ class User(AbstractUser):
     website = models.URLField(max_length=400,blank=True)
     experience = models.CharField(max_length=400,blank=True)
     language = models.CharField(max_length=40,blank=True)
-
-
-   
+    banner_user = models.ImageField(upload_to ="Images_Banner",blank=True)
+    facebook= models.URLField(max_length=500,blank=True)
+    instagram = models.URLField(max_length=500,blank=True)
+    tweeter = models.URLField(max_length=500,blank=True)
     sale_house = models.BooleanField(default=False)
     sell_house = models.BooleanField(default=False)
     building = models.BooleanField(default=False)

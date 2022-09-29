@@ -37,7 +37,7 @@
             </div>
 
             <div class="card-body">
-              <form role="form" method="POST" class="text-start">
+              <form role="form" method="POST" enctype="multipart/form-data" class="text-start">
                 {% csrf_token %}
                 <div class="input-group input-group-outline my-3">
                   <label class="form-label">Fist Name</label>
@@ -61,13 +61,19 @@
                 </div>
                 <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Password</label>
-                  <input name="password"  id="password" type="input" class="form-control" type="password" required>
+                  {% render_field signup_form.password1 class="form-control" %}
+                  
                   
                   
                 </div>
                 <div class="input-group input-group-outline mb-3">
+                  <label class="form-label"></label>
+                  {% render_field signup_form.photo class="form-control" %}
+                </div>
+                <div class="input-group input-group-outline mb-3">
                   <label class="form-label">Confirm Password</label>
-                  <input name="password2"  id="password2" type="input" class="form-control" type="password" required>
+                  {% render_field signup_form.password2 class="form-control" %}
+                  <!-- <input name="password2"  id="password2" type="input" class="form-control" type="password" required> -->
                   
                 </div>
                 <div class="form-check form-switch d-flex align-items-center mb-3">

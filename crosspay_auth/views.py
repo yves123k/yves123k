@@ -18,72 +18,86 @@ from .tokens import generate_token
 
 
 def signup(request):
-    signup_form =  Signup
+    signup_form = Signup
     if request.method == "POST":
-        first_name = request.POST.get("first_name")
+        signup_form = Signup(request.POST,request.FILES)
+        first_name = request.POST["first_name"]
         last_name = request.POST.get("last_name")
         username = request.POST.get("username")
         email = request.POST.get("email")
-        password = request.POST.get("password")
+        password1 = request.POST.get("password1")
         password2 = request.POST.get("password2")
-    
+        photo = request.FILES.get("photo")
+        print(first_name)
+        print(last_name)
+        print(username)
+        print(password1)
+        print(password2)
+        print(photo)
         if User.objects.filter(username=username):
             messages.error(request, "Username already exist! \nPlease try some other username.")
-        
+            return redirect('signup')
+            
         if User.objects.filter(email=email).exists():
             messages.error(request, "Email Already Registered!!")
-        
+            print(password1,password2)
+            return redirect('signup')
+
         if len(username)>8:
             messages.error(request, "Username must be under 8 charcters!!")
-          
-        if password != password2:
+            return redirect('signup')
+
+        if password1 != password2:
             messages.error(request, "Passwords didn't matched!!")
-        
-        if not username.isalnum():
-            messages.error(request, "Username must be Alpha-Numeric!!")
-          
-            user = User.objects.create_user(
-                    first_name = first_name,
-                    last_name = last_name,
-                    username = username, 
-                    email = email, 
-                    password = password,  
-                )
-            user.is_active = False    
-            user.save()
-            messages.success(request, "Your Account has been created succesfully!! \nPlease check your email to confirm your email \naddress in order to activate your account.")
+            redirect("home")
+            return redirect('signup')
 
-            # Welcome Email
-            subject = "Crosspay confirm email!!"
-            message = "Hello " + user.first_name + "!! \n" + "Welcome to Crosspay!! \nThank you for visiting our website\n. We have also sent you a confirmation email, please confirm your email address. \n\nThanking You\nYves kouame" 
-            from_email = settings.EMAIL_HOST_USER
-            to_list = [user.email]
-            send_mail(subject, message, from_email, to_list, fail_silently=True)
+        # if not username.isalnum():
+        #     messages.error(request, "Username must be Alpha-Numeric!!")
+    
+        user = User.objects.create_user(
+                first_name = first_name,
+                last_name = last_name,
+                username = username, 
+                email = email, 
+                password = password1,
+                photo = photo
 
-            current_site = get_current_site(request)
-            email_subject = "Confirm your Email @ Good - Crosspay Login!!"
-            message2 = render_to_string('accounts/email_confirmation.html',{
-                
-                'name': user.first_name,
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': generate_token.make_token(user)
-            })
-            email = EmailMessage(
-            email_subject,
-            message2,
-            settings.EMAIL_HOST_USER,
-            [user.email],
             )
-            email.fail_silently = True
-            email.send()
+        user.is_active = False    
+        user.save()
+        messages.success(request, "Your Account has been created succesfully!! \nPlease check your email to confirm your email \naddress in order to activate your account.")
+
+        # Welcome Email
+        subject = "Crosspay confirm email!!"
+        message = "Hello " + user.first_name + "!! \n" + "Welcome to Crosspay!! \nThank you for visiting our website\n. We have also sent you a confirmation email, please confirm your email address. \n\nThanking You\nYves kouame" 
+        from_email = settings.EMAIL_HOST_USER
+        to_list = [user.email]
+        send_mail(subject, message, from_email, to_list, fail_silently=True)
+
+        current_site = get_current_site(request)
+        email_subject = "Confirm your Email @ Good - Crosspay Login!!"
+        message2 = render_to_string('accounts/email_confirmation.html',{
             
-            return redirect('login')
-        else:
-            signup_form =  Signup()        
+            'name': user.first_name,
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': generate_token.make_token(user)
+        })
+        email = EmailMessage(
+        email_subject,
+        message2,
+        settings.EMAIL_HOST_USER,
+        [user.email],
+        )
+        email.fail_silently = True
+        email.send()
+        
+        return redirect('login')
+    else:
+        signup_form =  Signup()        
 
     return render(request , 'accounts/signup.html' ,{"signup_form":signup_form})
-
 
 def activate(request,uidb64,token):
     try:
@@ -111,35 +125,36 @@ def activate(request,uidb64,token):
         else:
             return render(request,'activation_failed.html',locals())
         
-
 def login_user(request):
     form_login =  UpdateUserProfile() 
     print(form_login.errors)
     if request.method == "POST":
-        username = request.POST['username']
-        password = request.POST['password']  
+        username = request.POST.get('username')
+        password = request.POST.get('password') 
         user = authenticate(
             username = request.POST.get("username"), 
             password = request.POST.get("password")
         )
-        print(username)
+        
         if user is not None:
             if user.is_active:
                 login(request, user)
                 return redirect ('/home/') 
         else:
             messages.error(request,'username or password not correct')
-            return redirect('login')
+            form_login =  UpdateUserProfile(request.POST)
+            
+            
     else:       
         form_login =  UpdateUserProfile()     
 
-    return render(request , 'accounts/Login.html',{'form_login':form_login})
+    return render(request,'accounts/Login.html',{'form_login':form_login})
 
   
 def logout_view(request):
     logout(request)
     messages.success(request, "Logged Out Successfully!!")
-    return redirect('home')
+    return redirect('/home/')
 
 
 def valide_error(request):
@@ -253,3 +268,27 @@ def not_found(request):
 #     else:
 #         form = SignUpForm()
 #     return render(request, 'accounts/Signup.html', {'form': form})
+
+
+
+# first_name = request.POST.get("first_name")
+        # last_name = request.POST.get("last_name")
+        # username = request.POST.get("username")
+        # email = request.POST.get("email")
+        # password = request.POST.get("password")
+        # password2 = request.POST.get("password2")
+    
+        # if User.objects.filter(username=username):
+        #     messages.error(request, "Username already exist! \nPlease try some other username.")
+        
+        # if User.objects.filter(email=email).exists():
+        #     messages.error(request, "Email Already Registered!!")
+        
+        # if len(username)>8:
+        #     messages.error(request, "Username must be under 8 charcters!!")
+          
+        # if password != password2:
+        #     messages.error(request, "Passwords didn't matched!!")
+        
+        # if not username.isalnum():
+        #     messages.error(request, "Username must be Alpha-Numeric!!")

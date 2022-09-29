@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from requests import request
 from crosspay_auth.models import User 
 from ckeditor.fields import RichTextField
 from crosspay_auth.models import RepeatField
@@ -12,7 +13,6 @@ class creat_Ad(RepeatField):
         on_delete=models.SET_NULL,
         null=True,
         related_name="create",
-        blank=True
     )
     titre = models.CharField(max_length=100,default="ND")
     image = models.ImageField(upload_to="ad",blank=True)

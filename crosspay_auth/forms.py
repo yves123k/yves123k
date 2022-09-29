@@ -12,18 +12,16 @@ from django.core.mail import EmailMessage, send_mail
 #         model = User
 #         fields = ("first_name","last_name","username","email", "password1", "password2")
         
-class Signup(ModelForm):    
-
-    
+class Signup(UserCreationForm):    
     class Meta:   
         model = User
-        fields = ("first_name" , "last_name", "username", "email")
+        fields = ("first_name","last_name","username","email","password1","password2","photo")
+    
     
 class UpdateUserProfile(ModelForm):    
-     
     class Meta:   
         model = User
         fields = ("photo","first_name","last_name","username","email","number_phone","address","description","nationality","job","country","website","experience","language",
-        "sale_house","sell_house","building","sell_land","sale_land","password")
+        "sale_house","sell_house","building","sell_land","sale_land","password","banner_user","facebook","instagram","tweeter")
 
 # "sale_house","sell_house","building","interior","clean","maintenance","land","sale_land",

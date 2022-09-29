@@ -15,8 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from crosspay_user.views import profile
-from crosspay_front.views import index, welcome,property_details,work,contact,about,property,blog
+from crosspay_user.views import profile, profile_view,update_profile
+from crosspay_front.views import index,welcome,property_details,work,contact,about,property,blog
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -31,6 +31,8 @@ urlpatterns = [
     path('about/', about ,name='about'),
     path('welcome/', welcome ,name='welcome'),
     path('profil/', profile ,name='profil'),
+    path('profile/update',update_profile,name='update_profile'),
+    path('profil/user/<int:pk>/',profile_view,name='profil_view'),
     path('accounts/', include('crosspay_auth.urls')),
     path('ad/', include('crosspay_user.urls')),
     path('properties/info/<int:pk>/', property_details , name='details')
