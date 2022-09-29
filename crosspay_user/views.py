@@ -35,7 +35,7 @@ def add_ad(request):
             f = form_ad.save(commit=False) 
             f.user = request.user
             f.save()
-            return redirect('blog')
+            return redirect('property/')
             
     else:
         form_ad = ad_user()

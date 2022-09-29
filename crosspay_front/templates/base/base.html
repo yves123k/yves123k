@@ -45,7 +45,7 @@
         <div class="container py-1">
           <div class="row align-items-center">
             <div class="col-8 col-md-8 col-lg-4">
-              <h1 class="mb-0"><a href="{% url 'home' %}" class="text-white h2 mb-0"><strong>Homeland<span class="text-danger">.</span></strong></a></h1>
+              <h1 class="mb-0"><a href="{% url 'home' %}" class="text-white h2 mb-0"><strong>CROSSPAY<span class="text-danger">.</span></strong></a></h1>
             </div>
             <div class="col-4 col-md-4 col-lg-8">
               <nav class="site-navigation text-right text-md-right" role="navigation">
@@ -77,6 +77,8 @@
                     <li class="{% if request.path == '/blog/' %} active {% endif %}"><a href="{% url 'blog' %}">Blog</a></li>
                     <li  class="{% if request.path == '/about/' %} active {% endif %}"><a href="{% url 'about' %}">About</a></li>
                     <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
+                    <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'login' %}">login</a></li>
+                    <li  class="{% if request.path == '/contact/' %} active {% endif %}"><a href="{% url 'signup' %}">register</a></li>
                 {% endif %}
                   </ul>
               </nav>
